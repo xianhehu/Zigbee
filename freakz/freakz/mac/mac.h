@@ -407,7 +407,7 @@ typedef struct
  * depth: Network depth of this router
  * end_dev_cap: Capacity available for end devices to join
  * ext_pan_id: Extended PAN ID
- * pot_parent: Potential Parent for this device
+ * pot_parent: Potential（可能的） Parent for this device
  */
 typedef struct _pan_descr_t
 {
@@ -593,7 +593,7 @@ typedef struct
 	U8		curr_scan_channel;
 	U32		channel_mask;
 	U8		duration;
-	U8		nwk_cnt;
+	U8		nwk_cnt; //网络数量(不同PANID数)
 	U8		scan_type;
 	bool		coor_realign_rcvd;
 	U8		energy_list[MAC_MAX_CHANNELS];

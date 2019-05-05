@@ -156,17 +156,16 @@ void mac_parse_beacon(buffer_t *buf, mac_hdr_t *hdr)
 	if (mac_scan_descr_find_pan(hdr->src_pan_id) == NULL)
 		pcb->nwk_cnt++;
 
-	if (mac_scan_descr_find_addr(&hdr->src_addr) != NULL)
-		/* we already have this address in our list. don't add */
-		return;
-
 	/*
 	 * move the data pointer forward two bytes now that we've
 	 * processed the superframe spec field
 	 */
 	superframe_spec = *(U16 *)buf->dptr;
 	buf->dptr += sizeof(U16);
-	mac_scan_descr_add(&hdr->src_addr, hdr->src_pan_id, pib->curr_channel, superframe_spec);
+
+    /* we not already have this address in our list. don't add */
+    if (mac_scan_descr_find_addr(&hdr->src_addr) == NULL)
+	    mac_scan_descr_add(&hdr->src_addr, hdr->src_pan_id, pib->curr_channel, superframe_spec);
 
 	/*
 	 * check to see if there are any GTS descriptors.

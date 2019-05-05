@@ -242,7 +242,7 @@ void nwk_fwd(buffer_t *buf, nwk_hdr_t *hdr_in)
 	nwk_hdr_t hdr_out;
 	mac_hdr_t mac_hdr_out;
 	bool indirect = false;
-	address_t dest_addr;
+	address_t  dest_addr;
 	mem_ptr_t *nbor_mem_ptr;
 
 	hdr_out.mac_hdr         = &mac_hdr_out;

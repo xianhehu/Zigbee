@@ -78,9 +78,9 @@ void zdo_nwk_start()
 	 * whether we are the coord or router
 	 */
 	if (aib->desig_coord)
-		nwk_form_req(aib->chan_mask, DEFAULT_SCAN_DURATION);
+		nwk_form_req(aib->chan_mask, DEFAULT_SCAN_DURATION); //主节点启动，扫描并选择使用最少、干扰最小的信道，唯一的PANID
 	else
-		nwk_disc_req(aib->chan_mask, DEFAULT_SCAN_DURATION);
+		nwk_disc_req(aib->chan_mask, DEFAULT_SCAN_DURATION); //从节点接入，扫描然后接入
 }
 
 /*
@@ -138,22 +138,26 @@ static bool zdo_nwk_select()
 		 */
 		if ((!aib->use_ext_pan_id) || (aib->use_ext_pan_id == SCAN_ENTRY(mem_ptr)->ext_pan_id))
 		{
+		    //如果指定父节点，就只接入指定的父节点
 			if ((aib->use_desig_parent &&
 				(aib->desig_parent == SCAN_ENTRY(mem_ptr)->coord_addr.short_addr)) ||
 			    !aib->use_desig_parent)
 			{
+			    //还有空余容量
 				capacity = (nib->dev_type == NWK_ROUTER) ?
 						(SCAN_ENTRY(mem_ptr)->rtr_cap >0) :
 						(SCAN_ENTRY(mem_ptr)->end_dev_cap > 0);
 				permit_join =
 					(SCAN_ENTRY(mem_ptr)->superfrm_spec & MAC_ASSOC_PERMIT_MASK) >>
 					       MAC_ASSOC_PERMIT_OFF;
-				prot_ver_match =
+                //协议版本相同
+                prot_ver_match =
 					(SCAN_ENTRY(mem_ptr)->prot_ver == ZIGBEE_PROTOCOL_VERSION);
-				stack_prof_match =
+                //profile相同
+                stack_prof_match =
 					(SCAN_ENTRY(mem_ptr)->stack_profile == ZIGBEE_STACK_PROFILE);
 
-				if (SCAN_ENTRY(mem_ptr)->pot_parent &&
+				if (SCAN_ENTRY(mem_ptr)->pot_parent && //可能的父节点
 				    capacity && permit_join &&
 				    prot_ver_match &&
 				    stack_prof_match)

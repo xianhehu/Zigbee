@@ -292,6 +292,7 @@ void af_tx_handler()
             // not allowed. we are only using the network address for now.
             return;
         }
+
         req.prof_id                 = TX_ENTRY(mem_ptr)->prof_id;
         req.clust_id                = TX_ENTRY(mem_ptr)->clust;
         req.src_ep                  = TX_ENTRY(mem_ptr)->src_ep;
@@ -334,5 +335,6 @@ PROCESS_THREAD(af_process, ev, data)
             af_conf_handler();
         }
     }
+
     PROCESS_END();
 }

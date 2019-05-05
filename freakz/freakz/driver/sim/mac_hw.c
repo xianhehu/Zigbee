@@ -250,6 +250,7 @@ static void mac_eventhandler(process_event_t event)
 				if (pcb->mac_state == MLME_SCAN)
 				{
 					mac_parse_beacon(buf, &hdr);
+                    //Í¨ÖªNWK²ã½âÎö
 					mac_beacon_notify_ind(buf, mac_scan_descr_find_addr(&hdr.src_addr));
 				}
 				buf_free(buf);
